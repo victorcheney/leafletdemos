@@ -1,1 +1,9 @@
-leafletµÄlocate·½·¨£¬Ö÷ÒªÓ¦ÓÃÓÚÒÆ¶¯¶Ë¶¨Î»£¬µ÷ÓÃä¯ÀÀÆ÷»òÕßÉè±¸µÄ¶¨Î»API
+# leaflet demos
+
+* [labelTextå†²çª](https://victorcheney.github.io/leafletdemos/modules/demo-labelTextCollision/index.html)
+* [è´å¡å°”æ›²çº¿ç”»é£æœºèˆªçº¿](https://victorcheney.github.io/leafletdemos/modules/demo-bezier/index.html)
+* [æ˜¾ç¤ºè§†å£ä¸­çš„å›¾å±‚](https://victorcheney.github.io/leafletdemos/modules/demo-layerindex/index.html)
+* [åŒºåŸŸsvgå¡«å……](https://victorcheney.github.io/leafletdemos/modules/demo-polygon-fillPattern/index.html)
+* åœ°å›¾å›¾å±‚è½¬æ¢ä¸ºå›¾ç‰‡
+  * æºç åœ°å€[leaflet-image](https://github.com/mapbox/leaflet-image)
+  * [demo](https://victorcheney.github.io/leafletdemos/modules/demo-leafletimage/index.html)
