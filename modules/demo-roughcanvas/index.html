@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>roughcanvas</title>
+
+    <!-- <link rel="stylesheet" href="../../lib/leaflet-1.0.0/leaflet.css"> -->
+    <link rel="stylesheet" href="../../lib/leaflet-3.0.0/leaflet.css">
+    <link rel="stylesheet" href="../../lib/mapbox-gl/mapbox-gl.css">
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="map"></div>
+
+    <!-- <script src="../../lib/leaflet-1.0.0/leaflet.js"></script> -->
+    <script src="../../lib/leaflet-3.0.0/leaflet.js"></script>
+    <!-- <script src="lib/mapbox.js"></script> -->
+    <script src="../../lib/mapbox-gl/mapbox-gl.js"></script>
+    <script src="../../lib/leaflet-mapbox-gl.js"></script>
+    <script src="../../lib/jquery.min.js"></script>
+    <script src="../../lib/leaflet-roughcanvas/rough.min.js"></script>
+    <script src="../../lib/leaflet-roughcanvas/leaflet-roughcanvas.js"></script>
+
+    <script src="./china.js"></script>
+
+    <script>
+        var glLayer = L.mapboxGL({
+            accessToken: 'no-token',
+            // style: 'https://www.fmbiz.com.cn:10240/map/styles/positron/style.json'
+            style: 'https://www.fmbiz.com.cn:10240/map/styles/fiord-color/style.json'
+        })
+
+        var fmMapboxWinter = L.tileLayer('http://60.205.94.247:8888/fm-mapbox-winter/{z}/{x}/{y}.png', {});
+
+
+        var map = L.map('map', {
+            center: new L.LatLng(37, -109.05),
+            zoom: 8,
+            layers: [glLayer]
+            // layers: [fmMapboxWinter]
+        })
+
+        // map.setView([37, -109.05], 5);
+
+        // create a red polygon from an array of LatLng points
+        var latlngs = [[37, -109.05], [41, -109.03], [41, -102.05], [37, -102.04]];
+        var polygon = L.polygon(latlngs, {
+            renderer: L.Canvas.roughCanvas(),
+            fillColor: 'red',
+            fillStyle: 'hachure',
+            fillWeight: 1,
+            hachureAngle: -41,
+            hachureGap: 3
+        }).addTo(map);
+
+        console.log('polygon:', polygon);
+        // zoom the map to the polygon
+        // map.fitBounds(polygon.getBounds());
+
+
+        // 画中国区域
+        var randomColor = function() {
+            var r = `rgb(${Math.round(Math.random() * 255)}, ${Math.round(Math.random() * 255)}, ${Math.round(Math.random() * 255)})`;
+            return r;
+        }
+        var randomAngle = function() {
+            return (Math.random() > 0.5 ? -1 : 1) * (1 + Math.random() * 88);
+        }
+        var randomStyle = function() {
+            return (Math.random() > 0.8 ? 'solid' : '');
+        }
+
+        L.geoJSON(china, {
+            renderer: L.Canvas.roughCanvas(),
+            style: function (feature) {
+                styleObj = {
+                    hachureAngle: randomAngle(),
+                    fillColor: randomColor(),
+                    fillStyle: 'dots ', // randomStyle(),
+                    roughness: 1,
+                    bowing: 0.3
+                }
+                return styleObj
+            },
+        }).addTo(map); 
+        
+        map.fitBounds(polygon.getBounds());
+
+        map.setView([46.249091968000073, 123.094612135000034], 5);
+                            
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>roughcanvas</title>
+
+    <!-- <link rel="stylesheet" href="../../lib/leaflet-1.0.0/leaflet.css"> -->
+    <link rel="stylesheet" href="../../lib/leaflet-3.0.0/leaflet.css">
+    <link rel="stylesheet" href="../../lib/mapbox-gl/mapbox-gl.css">
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="map"></div>
+
+    <!-- <script src="../../lib/leaflet-1.0.0/leaflet.js"></script> -->
+    <script src="../../lib/leaflet-3.0.0/leaflet.js"></script>
+    <!-- <script src="lib/mapbox.js"></script> -->
+    <script src="../../lib/mapbox-gl/mapbox-gl.js"></script>
+    <script src="../../lib/leaflet-mapbox-gl.js"></script>
+    <script src="../../lib/jquery.min.js"></script>
+    <script src="../../lib/leaflet-roughcanvas/rough.min.js"></script>
+    <script src="../../lib/leaflet-roughcanvas/leaflet-roughcanvas.js"></script>
+    <script src="../../lib/Leaflet.LayerIndex/RTree.js"></script>
+    <script src="../../lib/Leaflet.LayerIndex/leaflet.layerindex.js"></script>
+    <script src="../../lib/leaflet.migrationLayer/dist/leaflet.migrationLayer.js"></script>
+
+    <script src="./china.js"></script>
+
+    <script>
+        var glLayer = L.mapboxGL({
+            accessToken: 'no-token',
+            // style: 'https://www.fmbiz.com.cn:10240/map/styles/positron/style.json'
+            // style: 'https://www.fmbiz.com.cn:10240/map/styles/fiord-color/style.json'
+            style: 'https://www.fmbiz.com.cn:10240/map/styles/dark-matter/style.json'
+        })
+
+
+        var map = L.map('map', {
+            center: new L.LatLng(37, -109.05),
+            zoom: 8,
+            layers: [glLayer]
+            // layers: [fmMapboxWinter]
+        })
+
+        // map.setView([37, -109.05], 5);
+
+        // 物流迁移
+        var data = [{
+            'from': [119.14398193359375, 36.70365959719456],
+            'to': [123.37646484374999, 41.82045509614034],
+            'labels': ['潍坊', '沈阳'],
+            'color': '#ffa600'
+        }, {
+            'from': [119.14398193359375, 36.70365959719456],
+            'to': [116.3671875, 39.9434364619742],
+            'labels': [null, '北京'],
+            'color': '#ff7e2b'
+        }, {
+            'from': [119.14398193359375, 36.70365959719456],
+            'to': [112.54394531249999,
+                37.85750715625203
+            ],
+            'labels': [null, '太原'],
+            'color': '#ffc726'
+        }, {
+            'from': [119.14398193359375, 36.70365959719456],
+            'to': [108.9404296875, 34.27083595165],
+            'labels': [null, '西安'],
+            'color': '#e9ff20'
+        }, {
+            'from': [119.14398193359375, 36.70365959719456],
+            'to': [113.62060546875, 34.75966612466248],
+            'labels': [null, '郑州'],
+            'color': '#99ff1b'
+        }, {
+            'from': [119.14398193359375, 36.70365959719456],
+            'to': [114.6533203125, 30.600093873550072],
+            'labels': [null, '武汉'],
+            'color': '#45ff15'
+        }, {
+            'from': [119.14398193359375, 36.70365959719456],
+            'to': [120.21240234375001, 30.221101852485987],
+            'labels': [null, '杭州'],
+            'color': '#10ff33'
+        }, {
+            'from': [119.14398193359375, 36.70365959719456],
+            'to': [101.77734374999999, 36.61552763134925],
+            'labels': [null, '西宁'],
+            'color': '#0aff84'
+        }, {
+            'from': [119.14398193359375, 36.70365959719456],
+            'to': [104.0185546875, 30.694611546632277],
+            'labels': [null, '成都'],
+            'color': '#05ffd9'
+        }, {
+            'from': [119.14398193359375, 36.70365959719456],
+            'to': [113.3349609375, 23.160563309048314],
+            'labels': [null, '广州'],
+            'color': '#00ccff'
+        }];
+
+
+        var migrationLayer = new L.migrationLayer({
+            map: map,
+            data: data,
+            pulseRadius: 30,
+            pulseBorderWidth: 3,
+            arcWidth: 1,
+            arcLabel: true,
+            arcLabelFont: '10px sans-serif',
+        });
+
+        migrationLayer.addTo(map);
+
+        map.setView([46.249091968000073, 123.094612135000034], 5);
+                            
+    </script>
+</body>
+
+</html>

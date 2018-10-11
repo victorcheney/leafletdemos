@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>leaflet-polygon.fillPattern</title>
+
+    <!-- <link rel="stylesheet" href="../../lib/leaflet-1.0.0/leaflet.css"> -->
+    <link rel="stylesheet" href="../../lib/leaflet-3.0.0/leaflet.css">
+    <link rel="stylesheet" href="../../lib/mapbox-gl/mapbox-gl.css">
+
+
+    <style type="text/css">
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+
+
+    <!-- <script src="../../lib/leaflet-1.0.0/leaflet.js"></script> -->
+    <script src="../../lib/leaflet-3.0.0/leaflet.js"></script>
+    <!-- <script src="lib/mapbox.js"></script> -->
+    <script src="../../lib/mapbox-gl/mapbox-gl.js"></script>
+    <script src="../../lib/leaflet-mapbox-gl.js"></script>
+    <script src="../../lib/jquery.min.js"></script>
+
+    <script src="../../lib/leaflet-polygon-fillPattern/leaflet-polygon.fillPattern.js"></script>
+    <script src="./china.js"></script>
+
+    <script>
+        var map = L.map('map').setView([23.7, 121], 8);
+        // L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
+
+        var glLayer = L.mapboxGL({
+            accessToken: 'no-token',
+            style: 'https://www.fmbiz.com.cn:10240/map/styles/positron/style.json'
+            // style: 'https://www.fmbiz.com.cn:10240/map/styles/fiord-color/style.json'
+        })
+
+        glLayer.addTo(map)
+
+        var poly1 = [
+            [24, 121],
+            [24.5, 121],
+            [24.5, 121.9],
+            [24, 121.9]
+        ];
+        L.polygon(poly1, {
+            fill: 'url(plant.png)'
+        }).addTo(map);
+
+        var poly2 = [
+            [24, 120],
+            [23.5, 120],
+            [23.5, 120.9],
+            [24, 120.9]
+        ];
+        L.geoJSON(china, {
+            fill: 'url(plant.png)',
+            opacity: 1
+        }).addTo(map);
+    </script>
+</body>
+
+</html>

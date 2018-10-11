@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta charset="utf-8">
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+
+    <link rel="stylesheet" href="lib/leaflet-1.0.0/leaflet.css">
+
+</head>
+
+<body>
+
+    <div id="map"></div>
+
+    <script src="lib/leaflet-1.0.0/leaflet.js"></script>
+    <!-- <script src="lib/mapbox.js"></script> -->
+    <script src="lib/mapbox-gl.js"></script>
+    <script src="lib/leaflet-mapbox-gl.js"></script>
+    <script src="lib/jquery.min.js"></script>
+
+
+    <script>
+        var map = L.map('map')
+
+        var fmMapboxWinter = L.tileLayer('http://60.205.94.247:8888/fm-mapbox-winter/{z}/{x}/{y}.png', {});
+
+        // fmMapboxWinter.addTo(map);
+
+        var glLayer = L.mapboxGL({
+                accessToken: 'no-token',
+                // style: 'https://www.fmbiz.com.cn:10248/styles/fiord-color/style.json'
+                style: 'https://www.fmbiz.com.cn:10240/map/styles/positron/style.json'
+            }).addTo(self.map);
+        
+        map.locate({setView: true, maxZoom: 15})
+        .on('locationfound', function(e){
+                var marker = L.marker([e.latitude, e.longitude]).bindPopup('Your are here :)');
+                var circle = L.circle([e.latitude, e.longitude], e.accuracy/2, {
+                    weight: 1,
+                    color: 'blue',
+                    fillColor: '#cacaca',
+                    fillOpacity: 0.2
+                });
+                map.addLayer(marker);
+                map.addLayer(circle);
+            })
+           .on('locationerror', function(e){
+                console.log(e);
+                alert("Location access denied.");
+            }); 
+
+        /**定位到当前位置*/
+        var toCurLocaltion = function () {
+            $.ajax({
+                // url: 'https://restapi.amap.com/v3/ip?key=70c887068b7f10ca71379eb0b9953948',
+                url:'https://api.map.baidu.com/location/ip?ak=Qdr38ubEtGtD0AwFF85yPElUsjIHGL3Z&coor=bd09ll',
+                // url:'http://api.map.baidu.com/location/ip?ak=Qdr38ubEtGtD0AwFF85yPElUsjIHGL3Z&coor=bd09ll',
+                dataType:'jsonp',
+                processData: false, 
+                type:'get',
+                success: function (msg) {
+                    console.log('lnglat', msg);
+
+                    // 高德
+                    /* var lngLatArry = msg.rectangle.split(";"); //字符分割
+
+                    var lngLat_1 = lngLatArry[0].split(',');
+                    var lngLat_2 = lngLatArry[1].split(',');
+
+                    console.log('lngLat_1', lngLat_1);
+                    console.log('lngLat_2', lngLat_2);
+
+                    var bound = L.latLngBounds(lngLat_1, lngLat_2);
+
+                    var center = bound.getCenter();
+
+                    console.log('center', center);
+
+                    L.marker(lngLat_1.reverse()).addTo(map);
+                    L.marker(lngLat_2.reverse()).addTo(map);
+                    L.marker([center.lng, center.lat]).addTo(map); 
+                    map.setView([center.lng, center.lat], 15);
+                    */
+                    // 百度
+                    var center = msg.content.point
+                    L.marker([center.y, center.x]).addTo(map); 
+                    map.setView([center.y, center.x], 15);
+
+                    // $(".leaflet-tile ,.leaflet-tile-loaded").fadeTo("slow", 0.4);
+                }
+            })
+
+        };
+
+        // toCurLocaltion();
+
+        /* if (window.navigator.geolocation) {
+        var options = {
+        enableHighAccuracy: true
+        };
+        window.navigator.geolocation.getCurrentPosition(handleSuccess, handleError, options);
+        } else {
+        alert("浏览器不支持html5来获取地理位置信息");
+        }
+        function handleSuccess(position){
+        // 获取到当前位置经纬度  本例中是chrome浏览器取到的是google地图中的经纬度
+        var lng = position.coords.longitude;
+        var lat = position.coords.latitude;
+
+        console.log('lat', lat, 'lng', lng);
+
+        L.marker([lat, lng]).addTo(map);
+
+        map.setView([lat, lng]);
+
+        }
+        function handleError(error){
+        console.log('error', error);
+        }*/
+    </script>
+
+</body>
+
+</html>
