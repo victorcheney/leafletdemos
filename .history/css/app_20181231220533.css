@@ -86,8 +86,3 @@ header h2 {
 .list-container li a:hover {
     color: #fff;
 }
-
-#map {
-    height: 100%;
-    width: 100%;
-}

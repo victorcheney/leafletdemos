@@ -36,7 +36,7 @@ let listData = [
         originalUrl: ''
     },
     {
-        name: 'Leaflet加载高德等底图',
+        name: '地图图层转换为图片',
         url: 'examples/demo-chinaProvider/index.html',
         originalUrl: 'https://github.com/htoooth/Leaflet.ChineseTmsProviders'
     }

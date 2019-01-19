@@ -36,7 +36,7 @@ let listData = [
         originalUrl: ''
     },
     {
-        name: 'Leaflet加载高德等底图',
+        name: 'Leaflet加载gao'd',
         url: 'examples/demo-chinaProvider/index.html',
         originalUrl: 'https://github.com/htoooth/Leaflet.ChineseTmsProviders'
     }
