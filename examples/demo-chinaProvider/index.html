@@ -68,20 +68,31 @@
             'Geoq-Normal-Warm': ['Geoq.Normal.Warm']
         }
 
-        L.tileLayer
+        let layerTemp = [];
+
+        let tl = L.tileLayer
             .chinaProvider("Geoq.Normal.PurplishBlue", {
                 attribution: "&copy;"
             })
             .addTo(map);
+        layerTemp.push(tl);
 
         $('#layers-select').change((e) => {
-            console.log('value', e.target.value);
+
+            layerTemp.forEach(item => {
+                if(item) {
+                    map.removeLayer(item); 
+                }
+            });
+
             LAYERS[e.target.value].forEach(element => {
-                L.tileLayer
+                let layer = L.tileLayer
                     .chinaProvider(element, {
                         attribution: `${element}`
                     })
                     .addTo(map);
+                
+                layerTemp.push(layer);
             });
         })
     </script>
