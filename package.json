@@ -1,0 +1,24 @@
+{
+  "name": "leafletdemos",
+  "version": "1.0.0",
+  "description": "* [labelText冲突](https://victorcheney.github.io/leafletdemos/examples/demo-labelTextCollision/index.html)\r * [贝塞尔曲线画飞机航线](https://victorcheney.github.io/leafletdemos/examples/demo-bezier/index.html)\r * [显示视口中的图层](https://victorcheney.github.io/leafletdemos/examples/demo-layerindex/index.html)\r * [svg图片填充区域](https://victorcheney.github.io/leafletdemos/examples/demo-polygon-fillPattern/index.html)\r * 地图图层转换为图片\r   * 源码地址[leaflet-image](https://github.com/mapbox/leaflet-image)\r   * [demo](https://victorcheney.github.io/leafletdemos/examples/demo-leafletimage/index.html)\r * [Leaflet加载高德等底图](https://victorcheney.github.io/leafletdemos/examples/demo-chinaProvider/index.html)",
+  "main": "index.js",
+  "directories": {
+    "example": "examples",
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "live-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/victorcheney/leafletdemos.git"
+  },
+  "author": "victorcheney",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/victorcheney/leafletdemos/issues"
+  },
+  "homepage": "https://github.com/victorcheney/leafletdemos#readme"
+}

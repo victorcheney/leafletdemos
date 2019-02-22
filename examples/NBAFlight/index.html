@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>leaflet image</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="../../lib/mapbox-gl/mapbox-gl.css">
+    <link rel="stylesheet" href="../../css/app.css">
+
+    <style>
+        .control-container {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 999;
+            height: 100%;
+            width: 260px;
+            background: #ddd;
+            overflow: hidden;
+        }
+        .scroll {
+            width: 270px;
+            height: 102%;
+            overflow-x: scroll;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="map"></div>
+    <div class="control-container">
+        <div class="scroll">
+            
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
+    <script src="../../lib/mapbox-gl/mapbox-gl.js"></script>
+    <script src="../../lib/leaflet-mapbox-gl.js"></script>
+    <script src="../../lib/leaflet.migrationLayer/dist/leaflet.migrationLayer.js"></script>
+    <script src="../../lib/leaflet.chineseTmsProvider.js"></script>
+    <script src="../../lib/jquery.min.js"></script>
+
+
+    <!-- data -->
+    <script src="./arenaData.js"></script>
+    <script src="./data.js"></script>
+
+
+    <script>
+        var map = L.map('map').setView([6.9270786, 79.861243], 3);
+
+        var glLayer = L.mapboxGL({
+            accessToken: 'no-token',
+            // style: 'https://www.fmbiz.com.cn:10240/map/styles/positron/style.json'
+            style: 'https://www.fmbiz.com.cn:10240/map/styles/fiord-color/style.json'
+        })
+
+        let tl = L.tileLayer
+            .chinaProvider("TianDiTu.Normal.Map", {
+                attribution: "&copy;"
+            })
+            .addTo(map);
+        // layerTemp.push(tl);
+
+        // glLayer.addTo(map);
+
+        // 格式化数据
+        function flatten(data = []) {
+            let dataObj = {};
+            if (data && Array.isArray(data)) {
+                data.map(item => {
+                    dataObj[item.abbreviation] = item
+                    return item;
+                })
+            }
+            return dataObj;
+        }
+
+        function getScheduleDatas(datas = []) {
+            let scheduleData = [];
+            datas.map(item => {
+                if (item.list && Array.isArray(item.list)) {
+                    scheduleData = [...scheduleData, ...item.list];
+                }
+
+                return item;
+            })
+            return scheduleData;
+        }
+
+        function _formatLatlng(name) {
+            return flattenData[name] && flattenData[name].latlng.split(', ').map(item => Number(item));
+        }
+
+        function formatData(data = []) {
+            let d = [];
+            data.map(item => {
+                let homeName = item.rightLogo.name;
+                let awayName = item.leftLogo.name;
+                if (['西部', '世界联队', '美国队', '库里队', '詹姆斯队', '全明星'].indexOf(awayName) !== -1) {
+                    // console.log(awayName);
+                    return;
+                } else {
+
+                    let temp = {
+                        'from': _formatLatlng(awayName).reverse(),
+                        'to': _formatLatlng(homeName).reverse(),
+                        'labels': [awayName, homeName],
+                        'color': '#00ccff'
+                    }
+                    if (awayName === '湖人') {
+                        d.push(temp);
+                    }
+                    return item;
+                }
+            });
+
+            // 去重
+            d = d.map(item => {
+                return JSON.stringify(item);
+            }).filter((item, index, arr)=> {
+                return index === arr.indexOf(item)
+            }).map(item => {
+                return JSON.parse(item);
+            });
+
+            return d;
+        }
+
+        const flattenData = flatten(teams);
+        const scheduleData = getScheduleDatas(datas);
+
+        let NBAData = formatData(scheduleData);
+
+        console.log('000:', NBAData);
+
+
+        var migrationLayer = new L.migrationLayer({
+            map: map,
+            data: NBAData,
+            pulseRadius: 20,
+            pulseBorderWidth: 1,
+            arcWidth: 0.5,
+            arcLabel: true,
+            arcLabelFont: '15px sans-serif',
+        });
+
+        migrationLayer.addTo(map);
+
+        // map.setView([46.249091968000073, 123.094612135000034], 5);
+        map.setView([38.458668, -100.523703], 5);
+    </script>
+</body>
+
+</html>
