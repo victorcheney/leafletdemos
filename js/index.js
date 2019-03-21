@@ -53,11 +53,16 @@ listData.map(item => {
 
     html += 
     `<li>
-        <img src="img/leaflet.png" alt="">
-        <div class="p-link">
-            <a href="${item.url}">${item.name}</a>
-            <a href="${item.originalUrl}">ORIGINAL</a>
+        <div class="card-item hover-shadow-box-animation">
+            <img src="img/leaflet.png" alt="">
+            <div class="p-link">
+                <a href="${item.url}">${item.name}</a>
+                <a href="${item.originalUrl}">
+                    <i class="fa fa-link"></i>
+                </a>
+            </div>
         </div>
+        
     </li>`;
 
     return item;
